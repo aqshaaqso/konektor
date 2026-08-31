@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "social-connectors-api"
+version = "1.1.0"
+description = "Standalone FastAPI connectors for social media search and online news"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.116,<1.0",
+    "httpx2>=2.12,<3.0",
+    "python-dotenv>=1.0,<2.0",
+    "uvicorn>=0.35,<1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3,<9.0",
+    "ruff>=0.12,<1.0",
+]
+
+[tool.fastapi]
+entrypoint = "social_connectors_api.main:app"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"social_connectors_api" = ["endpoint_registry.json"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,2844 @@
+{
+  "info": {
+    "_postman_id": "15f96d20-7bee-4d15-887d-32df368bdb31",
+    "name": "Social Connectors API - Complete",
+    "description": "50 endpoint provider lengkap dan 5 convenience search endpoint. Credential disimpan di server, bukan di collection.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "const end = new Date();",
+          "const start = new Date(end);",
+          "start.setUTCDate(start.getUTCDate() - 30);",
+          "pm.collectionVariables.set('startDate', start.toISOString().slice(0, 10));",
+          "pm.collectionVariables.set('endDate', end.toISOString().slice(0, 10));"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:8000",
+      "type": "string"
+    },
+    {
+      "key": "searchQuery",
+      "value": "Nusa Tenggara Timur",
+      "type": "string"
+    },
+    {
+      "key": "startDate",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "endDate",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "System",
+      "item": [
+        {
+          "name": "Health",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "health"
+              ]
+            },
+            "description": "Status API dan connector."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Endpoint Catalog",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/v1/catalog",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "catalog"
+              ]
+            },
+            "description": "Daftar metadata 50 endpoint provider."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Convenience Searches",
+      "item": [
+        {
+          "name": "Search Youtube",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/v1/youtube/search",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "youtube",
+                "search"
+              ]
+            },
+            "description": "Pencarian ringkas dengan output sosial yang dinormalisasi.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"{{searchQuery}}\",\n  \"start_date\": \"{{startDate}}\",\n  \"end_date\": \"{{endDate}}\",\n  \"limit\": 20\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Search Instagram",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/v1/instagram/search",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "instagram",
+                "search"
+              ]
+            },
+            "description": "Pencarian ringkas dengan output sosial yang dinormalisasi.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"{{searchQuery}}\",\n  \"start_date\": \"{{startDate}}\",\n  \"end_date\": \"{{endDate}}\",\n  \"limit\": 20\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Search Tiktok",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/v1/tiktok/search",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "tiktok",
+                "search"
+              ]
+            },
+            "description": "Pencarian ringkas dengan output sosial yang dinormalisasi.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"{{searchQuery}}\",\n  \"start_date\": \"{{startDate}}\",\n  \"end_date\": \"{{endDate}}\",\n  \"limit\": 20\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Search Threads",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/v1/threads/search",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "threads",
+                "search"
+              ]
+            },
+            "description": "Pencarian ringkas dengan output sosial yang dinormalisasi.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"{{searchQuery}}\",\n  \"start_date\": \"{{startDate}}\",\n  \"end_date\": \"{{endDate}}\",\n  \"limit\": 20\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Search Online News",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/v1/news/search",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "news",
+                "search"
+              ]
+            },
+            "description": "Pencarian ringkas Google News melalui SerpAPI.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"{{searchQuery}}\",\n  \"limit\": 20,\n  \"language\": \"id\",\n  \"country\": \"id\",\n  \"sort\": \"date\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Complete Connector Catalog",
+      "item": [
+        {
+          "name": "TikTok",
+          "item": [
+            {
+              "name": "Hashtag Search",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/tiktok/tiktok_hashtag_search",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "tiktok",
+                    "tiktok_hashtag_search"
+                  ]
+                },
+                "description": "Fetch chunk of posts containing a given hashtag. The posts are fetched directly from https://www.tiktok.com/tag/magic . A single call to this endpoint returns about 20 posts. Use the `cursor` parameter to fetch more posts. (cursor=0 will fetch posts 1-20, cursor=20 will fetch posts 21-40 and so on). The maximum cursor which can be used is around 4000-5000...\n\nUpstream provider: GET /tt/hashtag/posts. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Masukkan name\",\n  \"cursor\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Full Hashtag Search",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/tiktok/tiktok_full_hashtag_search",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "tiktok",
+                    "tiktok_full_hashtag_search"
+                  ]
+                },
+                "description": "Fetch all the posts that Tiktok shows for a given hashtag. All the posts are fetched directly from https://www.tiktok.com/tag/magic and filter out any that are were not posted within the last N days. This is a convenience endpoint which internally calls the 'Hashtag Search' endpoint repeatedly (iterating the cursor) to collect all the posts for a given ha...\n\nUpstream provider: GET /tt/hashtag/recent-posts. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Masukkan name\",\n  \"days\": 1,\n  \"remap_output\": true,\n  \"max_cursor\": 10000\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Full Keyword Search",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/tiktok/tiktok_full_keyword_search",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "tiktok",
+                    "tiktok_full_keyword_search"
+                  ]
+                },
+                "description": "Fetch all possible posts for a given keyword from the Tiktok mobile app search video bar according to filter based on time. This API automatically manages the pagination for our 'Keyword Search' endpoint. This is a convenience endpoint which internally calls the 'Keyword Search' endpoint repeatedly (iterating the cursor) to collect all the posts for a giv...\n\nUpstream provider: GET /tt/keyword/full-search. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Masukkan name\",\n  \"period\": \"Masukkan period\",\n  \"sorting\": \"0\",\n  \"country\": \"replace_country\",\n  \"match_exactly\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Keyword Search",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/tiktok/tiktok_keyword_search",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "tiktok",
+                    "tiktok_keyword_search"
+                  ]
+                },
+                "description": "Fetch posts for a given keyword from the Tiktok mobile app search video bar according to filter based on time and sorting. Returns a maximum of 20 posts per call (if match_exactly is true, it returns 10 posts per call). Note: the cost becomes (1 + #returned_posts) when get_author_stats is true. See the `cursor` query parameter below for information on how...\n\nUpstream provider: GET /tt/keyword/search. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Masukkan name\",\n  \"cursor\": 0,\n  \"period\": \"Masukkan period\",\n  \"sorting\": \"0\",\n  \"country\": \"replace_country\",\n  \"match_exactly\": false,\n  \"get_author_stats\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Lives Search",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/tiktok/tiktok_lives_search",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "tiktok",
+                    "tiktok_lives_search"
+                  ]
+                },
+                "description": "Fetch lives posts for a given keyword from the Tiktok mobile app search lives section. Returns a maximum of 20 lives per call. See the `cursor` query parameter below for information on how to fetch more posts. API Pricing (per request) : 1 unit Try the API\n\nUpstream provider: GET /tt/live/search. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"keyword\": \"Masukkan keyword\",\n  \"cursor\": 0,\n  \"country\": \"replace_country\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Music Details",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/tiktok/tiktok_music_details",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "tiktok",
+                    "tiktok_music_details"
+                  ]
+                },
+                "description": "Fetch detailed information for a music ID. The music `id` will need to be found from other APIs (any of the APIs that return posts, will also contain the music id for the music used in the video). API Pricing (per request) : 2 units Try the API\n\nUpstream provider: GET /tt/music/details. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"Masukkan id\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Music Search",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/tiktok/tiktok_music_search",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "tiktok",
+                    "tiktok_music_search"
+                  ]
+                },
+                "description": "Fetch information about music based on a string. See the `cursor` query parameter below for information on how to manage pagination (fetch more results). API Pricing (per request) : 2 units Try the API\n\nUpstream provider: GET /tt/music/info. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Masukkan name\",\n  \"cursor\": 0,\n  \"sorting\": \"0\",\n  \"filter_by\": \"0\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Music Posts",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/tiktok/tiktok_music_posts",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "tiktok",
+                    "tiktok_music_posts"
+                  ]
+                },
+                "description": "Fetch the videos which have a particular piece of music in the background. The `music_id` will need to be found from other APIs (any of the APIs that return posts, will also contain the music id for the music used in the video). See the `cursor` query parameter below for information on how to manage pagination (fetch more results). API Pricing (per reques...\n\nUpstream provider: GET /tt/music/posts. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"music_id\": \"Masukkan music id\",\n  \"cursor\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Post Comments",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/tiktok/tiktok_post_comments",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "tiktok",
+                    "tiktok_post_comments"
+                  ]
+                },
+                "description": "Fetch comments for a given post. Each request returns a chunk of 30 comments. See the `cursor` query parameter below for information on how to manage pagination (fetch more comments). API Pricing (per request) : 1 unit API usage examples - Aweme ID does not exist: -> null returned. Cost: 1 unit - Aweme ID exists and has 20 comments: -> 20 comments returne...\n\nUpstream provider: GET /tt/post/comments. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"aweme_id\": \"Masukkan aweme id\",\n  \"cursor\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Post Comment Replies",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/tiktok/tiktok_post_comment_replies",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "tiktok",
+                    "tiktok_post_comment_replies"
+                  ]
+                },
+                "description": "Fetch the replies to a comments for a given post. Each request returns a chunk of 30 replies to a comment. See the `cursor` query parameter below for information on how to manage pagination (fetch more replies). API Pricing (per request) : 1 unit API usage examples - Comment ID does not exist: -> null returned. Cost: 1 unit - Comment ID exists and has 20...\n\nUpstream provider: GET /tt/post/comments-replies. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"aweme_id\": \"Masukkan aweme id\",\n  \"comment_id\": \"Masukkan comment id\",\n  \"cursor\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Post Info",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/tiktok/tiktok_post_info",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "tiktok",
+                    "tiktok_post_info"
+                  ]
+                },
+                "description": "Fetch post information and statistics from URL. API Pricing (per request) : 2 units Try the API\n\nUpstream provider: GET /tt/post/info. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"url\": \"Masukkan url\",\n  \"new_version\": false,\n  \"download_video\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Multiple Post Info",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/tiktok/tiktok_multi_post_info",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "tiktok",
+                    "tiktok_multi_post_info"
+                  ]
+                },
+                "description": "Fetch information for multiple post IDs. The endpoint can handle a maximum of 100 posts at once. The endpoint only returns the post information for posts that exist and that are not restricted by TikTok. API Pricing (per request) : 2 * #returned_posts units Try the API\n\nUpstream provider: GET /tt/post/multi-info. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ids\": \"Masukkan ids\",\n  \"new_version\": false,\n  \"download_video\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "User Followers",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/tiktok/tiktok_user_followers",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "tiktok",
+                    "tiktok_user_followers"
+                  ]
+                },
+                "description": "Fetch followers for a given user. Each request returns a chunk of 100 followers. See the `cursor` query parameter below for information on how to manage pagination (fetch more followers). Tiktok returns in total the 10,000 most recent followers. Note: if the `secUid` doesn't exists, the cost is just 1 unit. API Pricing (per request) : 2 units API usage ex...\n\nUpstream provider: GET /tt/user/followers. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"Masukkan id\",\n  \"secUid\": \"Masukkan sec uid\",\n  \"cursor\": 0,\n  \"page_token\": \"replace_page_token\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "User Followings",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/tiktok/tiktok_user_followings",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "tiktok",
+                    "tiktok_user_followings"
+                  ]
+                },
+                "description": "Fetch followings for a given user. Each request returns a chunk of 100 followings. See the `cursor` and `page_token` query parameters below for information on how to manage pagination (fetch more followings). Note: if the `secUid` doesn't exists, the cost is just 1 unit. API Pricing (per request) : 2 units API usage examples - secUid does not exist: -> nu...\n\nUpstream provider: GET /tt/user/followings. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"Masukkan id\",\n  \"secUid\": \"Masukkan sec uid\",\n  \"cursor\": 0,\n  \"page_token\": \"replace_page_token\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "User Info From Username",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/tiktok/tiktok_user_info_from_username",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "tiktok",
+                    "tiktok_user_info_from_username"
+                  ]
+                },
+                "description": "Fetch user information and statistics from their username. The data returned includes country, language, biography, profile picture, engagement statistics etc. API Pricing (per request) : 1 unit API usage examples - Username does not exist: -> null returned. Cost: 1 unit - Username exists: -> info returned. Cost: 1 unit Try the API\n\nUpstream provider: GET /tt/user/info. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"Masukkan username\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "User Info From Secuid",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/tiktok/tiktok_user_info_from_secuid",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "tiktok",
+                    "tiktok_user_info_from_secuid"
+                  ]
+                },
+                "description": "Fetch user information and statistics from their secondary user ID. The data returned includes country, language, biography, profile picture, engagement statistics etc. API Pricing (per request) : 1 unit API usage examples - secUid does not exist: -> null returned. Cost: 1 unit - secUid exists: -> info returned. Cost: 1 unit Try the API\n\nUpstream provider: GET /tt/user/info-from-secuid. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"secUid\": \"Masukkan sec uid\",\n  \"alternative_method\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "User Liked Posts",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/tiktok/tiktok_user_liked_posts",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "tiktok",
+                    "tiktok_user_liked_posts"
+                  ]
+                },
+                "description": "Fetch the list of liked posts of a user (only if publicly available). See the `cursor` query parameter below for information on how to manage pagination (fetch more posts). API Pricing (per request) : 1 unit Try the API\n\nUpstream provider: GET /tt/user/liked-posts. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"secUid\": \"Masukkan sec uid\",\n  \"cursor\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "User Posts From Username",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/tiktok/tiktok_user_posts_from_username",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "tiktok",
+                    "tiktok_user_posts_from_username"
+                  ]
+                },
+                "description": "Fetch user posts from their username. Depth 1 returns the 10 most recent posts, depth N returns the N * 10 most recent posts. The endpoint only returns posts that are not restricted by TikTok. API Pricing (per request) : 1 + depth units API usage examples - Username does not exist: -> 0 posts returned. Cost: 1 unit - Username exists, but user does not hav...\n\nUpstream provider: GET /tt/user/posts. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"Masukkan username\",\n  \"depth\": 1,\n  \"start_cursor\": 0,\n  \"new_version\": false,\n  \"download_video\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "User Posts From Secuid",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/tiktok/tiktok_user_posts_from_secuid",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "tiktok",
+                    "tiktok_user_posts_from_secuid"
+                  ]
+                },
+                "description": "Fetch user posts from their secondary user ID. Depth 1 returns the 10 most recent posts, depth N returns the N * 10 most recent posts. The endpoint only returns posts that are not restricted by TikTok. API Pricing (per request) : depth units API usage examples - secUid does not exist: -> 0 posts returned. Cost: 1 unit - secUid exists, but user does not ha...\n\nUpstream provider: GET /tt/user/posts-from-secuid. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"secUid\": \"Masukkan sec uid\",\n  \"depth\": 1,\n  \"start_cursor\": 0,\n  \"new_version\": false,\n  \"download_video\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "User Search",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/tiktok/tiktok_user_search",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "tiktok",
+                    "tiktok_user_search"
+                  ]
+                },
+                "description": "Fetch list of users whose username might be related to the given keyword. API Pricing (per request) : 2 units Try the API\n\nUpstream provider: GET /tt/user/search. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"keyword\": \"Masukkan keyword\",\n  \"cursor\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Instagram",
+          "item": [
+            {
+              "name": "Music Posts",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/instagram/instagram_music_posts",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "instagram",
+                    "instagram_music_posts"
+                  ]
+                },
+                "description": "Fetch posts from a music ID. See the `cursor` query parameter below for information on how to manage pagination (fetch more posts). API Pricing (per request) : #returned_posts units Try the API\n\nUpstream provider: GET /instagram/music/posts. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"Masukkan id\",\n  \"cursor\": \"replace_cursor\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Post Comments",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/instagram/instagram_post_comments",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "instagram",
+                    "instagram_post_comments"
+                  ]
+                },
+                "description": "Fetch post POPULAR (only ~ 15) or RECENT comments. Popular comments only can be fetched with empty cursor, no more are shown. Recent comments can be paginated over using the cursor. API Pricing (per request) : 2 units Try the API\n\nUpstream provider: GET /instagram/post/comments. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"media_id\": 1,\n  \"cursor\": \"Masukkan cursor\",\n  \"sorting\": \"Masukkan sorting\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Post Info & Comments",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/instagram/instagram_post_info_and_comments",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "instagram",
+                    "instagram_post_info_and_comments"
+                  ]
+                },
+                "description": "Fetch post information and statistics from shortcode. Additionally, the 50 most recent comments in the post can be fetched. N.B. = Video Play Counts (video_play_count) are the total number of views only for Instagram. Reels posted on both Instagram and Facebook, might show a higher amount of views when logged in, because it is the combination of Instagram...\n\nUpstream provider: GET /instagram/post/details. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"code\": \"Masukkan code\",\n  \"n_comments_to_fetch\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Search",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/instagram/instagram_search",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "instagram",
+                    "instagram_search"
+                  ]
+                },
+                "description": "Fetch users, places and hashtags information from text. API Pricing (per request) : 4 units Try the API\n\nUpstream provider: GET /instagram/search. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"Masukkan text\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "User Basic Stats",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/instagram/instagram_user_basic_stats",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "instagram",
+                    "instagram_user_basic_stats"
+                  ]
+                },
+                "description": "Fetch basic user information from their user ID. API Pricing (per request) : 4 units Try the API\n\nUpstream provider: GET /instagram/user/basic-info. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"user_id\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "User Detailed Info",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/instagram/instagram_user_detailed_info",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "instagram",
+                    "instagram_user_detailed_info"
+                  ]
+                },
+                "description": "Fetch detailed user info from their username. API Pricing (per request) : 10 units Try the API\n\nUpstream provider: GET /instagram/user/detailed-info. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"Masukkan username\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "User Follower Count",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/instagram/instagram_user_followers",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "instagram",
+                    "instagram_user_followers"
+                  ]
+                },
+                "description": "Fetch the number of followers from a user ID. API Pricing (per request) : 2 units Try the API\n\nUpstream provider: GET /instagram/user/followers. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"user_id\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "User Info",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/instagram/instagram_user_info",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "instagram",
+                    "instagram_user_info"
+                  ]
+                },
+                "description": "Fetch user info from their username. API Pricing (per request) : 3 units Try the API\n\nUpstream provider: GET /instagram/user/info. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"Masukkan username\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "User Posts",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/instagram/instagram_user_posts",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "instagram",
+                    "instagram_user_posts"
+                  ]
+                },
+                "description": "Fetch user posts from the user ID. Returns `depth` * `chunk_size` results. Note: if no posts can be retrieved the cost is 1. See the `start_cursor` and `depth` query parameters below for information on how to manage pagination (fetch more posts). API Pricing (per request) : #returned_posts units API usage examples - User does not exist: -> 0 posts returne...\n\nUpstream provider: GET /instagram/user/posts. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"user_id\": 1,\n  \"depth\": 1,\n  \"chunk_size\": 10,\n  \"start_cursor\": \"replace_start_cursor\",\n  \"alternative_method\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "User Reels",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/instagram/instagram_user_reels",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "instagram",
+                    "instagram_user_reels"
+                  ]
+                },
+                "description": "Fetch the user's reels from their user ID. Depth 1 returns 10 results, depth N returns N * 10 results. See the `depth` and `cursor` query parameters below for information on how to manage pagination (fetch more reels). API Pricing (per request) : #returned_reels units Try the API\n\nUpstream provider: GET /instagram/user/reels. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"user_id\": 1,\n  \"depth\": 1,\n  \"include_feed_video\": true,\n  \"start_cursor\": \"replace_start_cursor\",\n  \"chunk_size\": 10\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "User Tagged Posts",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/instagram/instagram_user_tagged_posts",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "instagram",
+                    "instagram_user_tagged_posts"
+                  ]
+                },
+                "description": "Fetch posts for which the given user ID has been tagged. Each call returns the 10 most recent posts where the user has been tagged. See the `cursor` query parameter below for information on how to manage pagination (fetch more posts). API Pricing (per request) : #returned_posts units Try the API\n\nUpstream provider: GET /instagram/user/tagged-posts. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"user_id\": 1,\n  \"cursor\": \"replace_cursor\",\n  \"chunk_size\": 10\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "YouTube",
+          "item": [
+            {
+              "name": "Channel Detailed Info",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/youtube/youtube_channel_detailed_info",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "youtube",
+                    "youtube_channel_detailed_info"
+                  ]
+                },
+                "description": "Get detailed information for a specific Youtube channel from its ID (youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA). API Pricing (per request) : 2 units Try the API\n\nUpstream provider: GET /youtube/channel/detailed-info. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"browseId\": \"Masukkan browse id\",\n  \"from_url\": false,\n  \"get_additional_info\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Channel Subscriber Count",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/youtube/youtube_channel_subscribers",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "youtube",
+                    "youtube_channel_subscribers"
+                  ]
+                },
+                "description": "Fetch the number of subscribers for a channel from its ID (youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA). API Pricing (per request) : 1 unit Try the API\n\nUpstream provider: GET /youtube/channel/followers. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"browseId\": \"Masukkan browse id\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Video / Short Details",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/youtube/youtube_video_details",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "youtube",
+                    "youtube_video_details"
+                  ]
+                },
+                "description": "Fetch statistics for a Youtube short or video from its channel ID (youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA). API Pricing (per request) : 1 unit Try the API\n\nUpstream provider: GET /youtube/channel/get-short-stats. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"Masukkan id\",\n  \"alternative_method\": false,\n  \"get_subscribers_count\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Channel Id To Username",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/youtube/youtube_channel_id_to_username",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "youtube",
+                    "youtube_channel_id_to_username"
+                  ]
+                },
+                "description": "Get the channel username (youtube.com/@MrBeast) from the channel ID (youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA). API Pricing (per request) : 1 unit Try the API\n\nUpstream provider: GET /youtube/channel/id-to-name. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"browseId\": \"Masukkan browse id\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Channel Username To Id",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/youtube/youtube_channel_username_to_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "youtube",
+                    "youtube_channel_username_to_id"
+                  ]
+                },
+                "description": "Get the channel ID (youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA) from the channel username (youtube.com/@MrBeast). API Pricing (per request) : 1 unit Try the API\n\nUpstream provider: GET /youtube/channel/name-to-id. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Masukkan name\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Channel Shorts",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/youtube/youtube_channel_shorts",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "youtube",
+                    "youtube_channel_shorts"
+                  ]
+                },
+                "description": "Fetch Youtube Shorts for a given channel from its ID (youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA). Depth 1 returns approx. 50 videos, Depth N returns approx. 50 * N videos. API Pricing (per request) : #returned_shorts / 10 units API usage examples - Depth 1: -> 53 shorts returned. Cost: 6 units - Depth 5 but channel only has 20 shorts: -> 20 shorts retu...\n\nUpstream provider: GET /youtube/channel/shorts. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"browseId\": \"Masukkan browse id\",\n  \"depth\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Channel Streams",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/youtube/youtube_channel_streams",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "youtube",
+                    "youtube_channel_streams"
+                  ]
+                },
+                "description": "Fetch Youtube Live Streams for a given channel from its ID (youtube.com/channel/UChBQgieUidXV1CmDxSdRm3g). Depth 1 returns approx. 30 videos, Depth N returns approx. 30 * N videos. API Pricing (per request) : #returned_streams / 10 units API usage examples - Depth 1: -> 30 streams returned. Cost: 3 units - Depth 5 but channel only has 20 streams: -> 20 st...\n\nUpstream provider: GET /youtube/channel/streams. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"browseId\": \"Masukkan browse id\",\n  \"depth\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Channel Videos",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/youtube/youtube_channel_videos",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "youtube",
+                    "youtube_channel_videos"
+                  ]
+                },
+                "description": "Fetch videos for a given channel from its ID (youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA). Depth 1 returns approx. 25 videos, Depth N returns approx. 25 * N videos. API Pricing (per request) : #returned_videos / 10 units API usage examples - Depth 1: -> 22 videos returned. Cost: 3 units - Depth 5 but channel has only 20 videos: -> 20 videos returned. Co...\n\nUpstream provider: GET /youtube/channel/videos. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"browseId\": \"Masukkan browse id\",\n  \"depth\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Hashtag Search",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/youtube/youtube_hashtag_search",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "youtube",
+                    "youtube_hashtag_search"
+                  ]
+                },
+                "description": "Fetch videos from a given hashtag. Depth 1 returns approx. 35 videos, Depth N returns approx. 35 * N videos. The videos are fetched directly from https://www.youtube.com/hashtag/magic. API Pricing (per request) : #returned_videos / 20 units Try the API\n\nUpstream provider: GET /youtube/hashtag/search. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Masukkan name\",\n  \"depth\": 1,\n  \"only_shorts\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Music Id To Shorts",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/youtube/youtube_music_id_to_shorts",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "youtube",
+                    "youtube_music_id_to_shorts"
+                  ]
+                },
+                "description": "Get shorts using a specific music ID. You can find the music ID using the `Video / Short Details` endpoint. It will be in the response inside the url at 'panels[-1].engagementPanelSectionListRenderer.content.richGridRenderer.contents[0].continuationItemRenderer.continuationItemRenderer.continuationCommand.token'. Depth 1 returns approx. 15 videos, Depth N...\n\nUpstream provider: GET /youtube/music/id-to-shorts. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"Masukkan id\",\n  \"depth\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Keyword Search",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/youtube/youtube_keyword_search",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "youtube",
+                    "youtube_keyword_search"
+                  ]
+                },
+                "description": "Fetch videos from a given keyword. Depth 1 returns approx. 20 videos, Depth N returns approx. 20 * N videos. The videos are fetched directly from https://www.youtube.com/results?search_query=magic. By default, this endpoint will search using the `All` category on Youtube. If you want to search in a specific category, use the `Featured Categories Search` e...\n\nUpstream provider: GET /youtube/search. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"keyword\": \"Masukkan keyword\",\n  \"depth\": 1,\n  \"start_cursor\": \"replace_start_cursor\",\n  \"period\": \"overall\",\n  \"sorting\": \"relevance\",\n  \"get_additional_info\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Featured Categories Search",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/youtube/youtube_featured_categories_search",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "youtube",
+                    "youtube_featured_categories_search"
+                  ]
+                },
+                "description": "Fetch the related categories showing on Youtube search keyword. The cursor returned for each category can be used as `start_cursor` in the Youtube Search Keyword API for fetching videos of the chosen category. The categories are fetched directly from https://www.youtube.com/results?search_query=magic. API Pricing (per request) : 1 unit Try the API\n\nUpstream provider: GET /youtube/search/featured-categories. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Masukkan name\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Video / Short Comments",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/youtube/youtube_video_comments",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "youtube",
+                    "youtube_video_comments"
+                  ]
+                },
+                "description": "Get comments for a specific Youtube video or short. See the `cursor` query parameter below for information on how to manage pagination (fetch more comments). API Pricing (per request) : 2 units Try the API\n\nUpstream provider: GET /youtube/video/comments. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"Masukkan id\",\n  \"cursor\": \"replace_cursor\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Threads",
+          "item": [
+            {
+              "name": "Keyword Search",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/threads/threads_search_keyword",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "threads",
+                    "threads_search_keyword"
+                  ]
+                },
+                "description": "Fetch posts related to a certain keyword. The posts can be top or most recent. NB: Threads returns only 10-20 posts at maximum per keyword. Run the API multiple times per day to get more posts. API Pricing (per request) : #returned_posts units Try the API\n\nUpstream provider: GET /threads/keyword/search. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Masukkan name\",\n  \"sorting\": \"replace_sorting\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Post Info & Replies",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/threads/threads_post_replies",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "threads",
+                    "threads_post_replies"
+                  ]
+                },
+                "description": "Fetch the information and its replies to a post using its ID. NB: Threads returns at maximum the 20-30 most popular replies to a posts. API Pricing (per request) : #returned_replies units Try the API\n\nUpstream provider: GET /threads/post/replies. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "User Info",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/threads/threads_user_info",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "threads",
+                    "threads_user_info"
+                  ]
+                },
+                "description": "Get user detailed information using the user ID. API Pricing (per request) : 4 units Try the API\n\nUpstream provider: GET /threads/user/info. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "User Posts",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/threads/threads_user_posts",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "threads",
+                    "threads_user_posts"
+                  ]
+                },
+                "description": "Fetch most recent posts for a user using the user ID. NB: Threads returns at maximum the 20-30 most recent posts for a user. API Pricing (per request) : #returned_posts units Try the API\n\nUpstream provider: GET /threads/user/posts. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": 1,\n  \"chunk_size\": 10\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "User Search",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/threads/threads_user_search",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "threads",
+                    "threads_user_search"
+                  ]
+                },
+                "description": "Find users matching a given input string. API Pricing (per request) : 4 units Try the API\n\nUpstream provider: GET /threads/user/search. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Masukkan name\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Berita Online",
+          "item": [
+            {
+              "name": "Google News Search",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/connectors/news/serpapi_google_news_search",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "connectors",
+                    "news",
+                    "serpapi_google_news_search"
+                  ]
+                },
+                "description": "Cari berita online melalui SerpAPI Google News. API key hanya digunakan oleh backend dan tidak dikirim ke browser.\n\nUpstream provider: GET https://serpapi.com/search.json. Ganti nilai contoh sebelum menjalankan request.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"Contoh: ekonomi Indonesia\",\n  \"sort\": \"relevance\",\n  \"limit\": 20,\n  \"language\": \"id\",\n  \"country\": \"id\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2414 @@
+{
+  "source_url": "https://ensembledata.com/apis/openapi.json",
+  "generated_at": "2026-08-27T09:12:29+00:00",
+  "source_sha256": "7948e6602032d6881c76ce8433c488c55b31fb01d7cf29e7a4485bbc60325e05",
+  "platforms": [
+    {
+      "id": "tiktok",
+      "name": "TikTok",
+      "endpoints": [
+        {
+          "id": "tiktok_hashtag_search",
+          "label": "Hashtag Search",
+          "path": "/tt/hashtag/posts",
+          "method": "GET",
+          "description": "Fetch chunk of posts containing a given hashtag. The posts are fetched directly from https://www.tiktok.com/tag/magic . A single call to this endpoint returns about 20 posts. Use the `cursor` parameter to fetch more posts. (cursor=0 will fetch posts 1-20, cursor=20 will fetch posts 21-40 and so on). The maximum cursor which can be used is around 4000-5000...",
+          "parameters": [
+            {
+              "name": "name",
+              "label": "Name",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "Hashtag to search (input without #).",
+              "placeholder": "Masukkan name"
+            },
+            {
+              "name": "cursor",
+              "label": "Cursor",
+              "type": "cursor",
+              "value_type": "integer",
+              "required": false,
+              "allow_empty": true,
+              "description": "Parameter to manually handle pagination. Each response contains a `nextCursor` which can be used to retrieve the next page of results by sending it as the next `cursor`. If the `nextCursor` is not present in the response, it means that there are no more results to retrieve.",
+              "placeholder": "Masukkan cursor",
+              "default": 0
+            }
+          ],
+          "pagination": [
+            "cursor"
+          ],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "tiktok_full_hashtag_search",
+          "label": "Full Hashtag Search",
+          "path": "/tt/hashtag/recent-posts",
+          "method": "GET",
+          "description": "Fetch all the posts that Tiktok shows for a given hashtag. All the posts are fetched directly from https://www.tiktok.com/tag/magic and filter out any that are were not posted within the last N days. This is a convenience endpoint which internally calls the 'Hashtag Search' endpoint repeatedly (iterating the cursor) to collect all the posts for a given ha...",
+          "parameters": [
+            {
+              "name": "name",
+              "label": "Name",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "Hashtag to search (input without #).",
+              "placeholder": "Masukkan name"
+            },
+            {
+              "name": "days",
+              "label": "Days",
+              "type": "integer",
+              "value_type": "integer",
+              "required": true,
+              "allow_empty": false,
+              "description": "Filter out posts created more than N days ago.",
+              "placeholder": "Masukkan days"
+            },
+            {
+              "name": "remap_output",
+              "label": "Remap Output",
+              "type": "boolean",
+              "value_type": "boolean",
+              "required": false,
+              "allow_empty": false,
+              "description": "If True, map the output to match the TikTok Web API. If False, the mapping is matches the mobile TikTok API.",
+              "placeholder": "Masukkan remap output",
+              "default": true
+            },
+            {
+              "name": "max_cursor",
+              "label": "Max Cursor",
+              "type": "cursor",
+              "value_type": "integer",
+              "required": false,
+              "allow_empty": true,
+              "description": "The endpont will stop fetching more posts once it reaches this cursor value (famous hashtags can return up to 4000-5000 posts, therefore, the cursor typically stops at 4000-5000).",
+              "placeholder": "Masukkan max cursor",
+              "default": 10000
+            }
+          ],
+          "pagination": [
+            "max_cursor"
+          ],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "tiktok_full_keyword_search",
+          "label": "Full Keyword Search",
+          "path": "/tt/keyword/full-search",
+          "method": "GET",
+          "description": "Fetch all possible posts for a given keyword from the Tiktok mobile app search video bar according to filter based on time. This API automatically manages the pagination for our 'Keyword Search' endpoint. This is a convenience endpoint which internally calls the 'Keyword Search' endpoint repeatedly (iterating the cursor) to collect all the posts for a giv...",
+          "parameters": [
+            {
+              "name": "name",
+              "label": "Name",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "The keyword to search.",
+              "placeholder": "Masukkan name"
+            },
+            {
+              "name": "period",
+              "label": "Period",
+              "type": "select",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "Only return posts more recent than the given period. The value corresponds to the number of days to filter on.",
+              "placeholder": "Masukkan period",
+              "options": [
+                {
+                  "value": "0",
+                  "label": "0"
+                },
+                {
+                  "value": "1",
+                  "label": "1"
+                },
+                {
+                  "value": "7",
+                  "label": "7"
+                },
+                {
+                  "value": "30",
+                  "label": "30"
+                },
+                {
+                  "value": "90",
+                  "label": "90"
+                },
+                {
+                  "value": "180",
+                  "label": "180"
+                }
+              ]
+            },
+            {
+              "name": "sorting",
+              "label": "Sorting",
+              "type": "select",
+              "value_type": "string",
+              "required": false,
+              "allow_empty": false,
+              "description": "The posts are sorted by relevance if sorting=0, by most liked if sorting=1, most recent if sorting=2.",
+              "placeholder": "Masukkan sorting",
+              "default": "0",
+              "options": [
+                {
+                  "value": "0",
+                  "label": "0"
+                },
+                {
+                  "value": "1",
+                  "label": "1"
+                },
+                {
+                  "value": "2",
+                  "label": "2"
+                }
+              ]
+            },
+            {
+              "name": "country",
+              "label": "Country",
+              "type": "string",
+              "value_type": "string",
+              "required": false,
+              "allow_empty": false,
+              "description": "Retrieve the posts as if in the specified country (US, FR, UK, DE, etc.)",
+              "placeholder": "Masukkan country",
+              "default": ""
+            },
+            {
+              "name": "match_exactly",
+              "label": "Match Exactly",
+              "type": "boolean",
+              "value_type": "boolean",
+              "required": false,
+              "allow_empty": false,
+              "description": "Fetch only videos where the input keyword has to be exactly present in the video caption. ATTENTION: If match_exactly=True, the API cost is #returned_posts / 10",
+              "placeholder": "Masukkan match exactly",
+              "default": false
+            }
+          ],
+          "pagination": [],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "tiktok_keyword_search",
+          "label": "Keyword Search",
+          "path": "/tt/keyword/search",
+          "method": "GET",
+          "description": "Fetch posts for a given keyword from the Tiktok mobile app search video bar according to filter based on time and sorting. Returns a maximum of 20 posts per call (if match_exactly is true, it returns 10 posts per call). Note: the cost becomes (1 + #returned_posts) when get_author_stats is true. See the `cursor` query parameter below for information on how...",
+          "parameters": [
+            {
+              "name": "name",
+              "label": "Name",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "The keyword to search.",
+              "placeholder": "Masukkan name"
+            },
+            {
+              "name": "cursor",
+              "label": "Cursor",
+              "type": "cursor",
+              "value_type": "integer",
+              "required": false,
+              "allow_empty": true,
+              "description": "Parameter to manually handle pagination. Each response contains a `nextCursor` which can be used to retrieve the next page of results by sending it as the next `cursor`. If the `nextCursor` is not present in the response, it means that there are no more results to retrieve.",
+              "placeholder": "Masukkan cursor",
+              "default": 0
+            },
+            {
+              "name": "period",
+              "label": "Period",
+              "type": "select",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "Only return posts more recent than the given period. The value corresponds to the number of days to filter on.",
+              "placeholder": "Masukkan period",
+              "options": [
+                {
+                  "value": "0",
+                  "label": "0"
+                },
+                {
+                  "value": "1",
+                  "label": "1"
+                },
+                {
+                  "value": "7",
+                  "label": "7"
+                },
+                {
+                  "value": "30",
+                  "label": "30"
+                },
+                {
+                  "value": "90",
+                  "label": "90"
+                },
+                {
+                  "value": "180",
+                  "label": "180"
+                }
+              ]
+            },
+            {
+              "name": "sorting",
+              "label": "Sorting",
+              "type": "select",
+              "value_type": "string",
+              "required": false,
+              "allow_empty": false,
+              "description": "The posts are sorted by relevance if sorting=0, by most liked if sorting=1, most recent if sorting=2.",
+              "placeholder": "Masukkan sorting",
+              "default": "0",
+              "options": [
+                {
+                  "value": "0",
+                  "label": "0"
+                },
+                {
+                  "value": "1",
+                  "label": "1"
+                },
+                {
+                  "value": "2",
+                  "label": "2"
+                }
+              ]
+            },
+            {
+              "name": "country",
+              "label": "Country",
+              "type": "string",
+              "value_type": "string",
+              "required": false,
+              "allow_empty": false,
+              "description": "Retrieve the posts as if in the specified country (US, FR, UK, DE, etc.)",
+              "placeholder": "Masukkan country",
+              "default": ""
+            },
+            {
+              "name": "match_exactly",
+              "label": "Match Exactly",
+              "type": "boolean",
+              "value_type": "boolean",
+              "required": false,
+              "allow_empty": false,
+              "description": "Fetch only videos where the input keyword has to be exactly present in the video caption. If true, it returns 10 posts per request.",
+              "placeholder": "Masukkan match exactly",
+              "default": false
+            },
+            {
+              "name": "get_author_stats",
+              "label": "Get Author Stats",
+              "type": "boolean",
+              "value_type": "boolean",
+              "required": false,
+              "allow_empty": false,
+              "description": "Whether to include extra statistics about the author of the post such as their following count, follower count, favoriting (likes) count etc.",
+              "placeholder": "Masukkan get author stats",
+              "default": false
+            }
+          ],
+          "pagination": [
+            "cursor"
+          ],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "tiktok_lives_search",
+          "label": "Lives Search",
+          "path": "/tt/live/search",
+          "method": "GET",
+          "description": "Fetch lives posts for a given keyword from the Tiktok mobile app search lives section. Returns a maximum of 20 lives per call. See the `cursor` query parameter below for information on how to fetch more posts. API Pricing (per request) : 1 unit Try the API",
+          "parameters": [
+            {
+              "name": "keyword",
+              "label": "Keyword",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "The keyword from which to search for Tiktok live posts.",
+              "placeholder": "Masukkan keyword"
+            },
+            {
+              "name": "cursor",
+              "label": "Cursor",
+              "type": "cursor",
+              "value_type": "integer",
+              "required": false,
+              "allow_empty": true,
+              "description": "Parameter to manually handle pagination. Each response contains a `nextCursor` which can be used to retrieve the next page of results by sending it as the next `cursor`. If the `nextCursor` is not present in the response, it means that there are no more results to retrieve.",
+              "placeholder": "Masukkan cursor",
+              "default": 0
+            },
+            {
+              "name": "country",
+              "label": "Country",
+              "type": "string",
+              "value_type": "string",
+              "required": false,
+              "allow_empty": false,
+              "description": "Retrieve the lives posts as if in the specified country (US, FR, UK, DE, etc.). If country is not empty string, 1 more unit gets charged.",
+              "placeholder": "Masukkan country",
+              "default": ""
+            }
+          ],
+          "pagination": [
+            "cursor"
+          ],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "tiktok_music_details",
+          "label": "Music Details",
+          "path": "/tt/music/details",
+          "method": "GET",
+          "description": "Fetch detailed information for a music ID. The music `id` will need to be found from other APIs (any of the APIs that return posts, will also contain the music id for the music used in the video). API Pricing (per request) : 2 units Try the API",
+          "parameters": [
+            {
+              "name": "id",
+              "label": "Id",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "Music ID whose information has to be fetched.",
+              "placeholder": "Masukkan id"
+            }
+          ],
+          "pagination": [],
+          "response_type": "object",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "tiktok_music_search",
+          "label": "Music Search",
+          "path": "/tt/music/info",
+          "method": "GET",
+          "description": "Fetch information about music based on a string. See the `cursor` query parameter below for information on how to manage pagination (fetch more results). API Pricing (per request) : 2 units Try the API",
+          "parameters": [
+            {
+              "name": "name",
+              "label": "Name",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "The music string to base the search on.",
+              "placeholder": "Masukkan name"
+            },
+            {
+              "name": "cursor",
+              "label": "Cursor",
+              "type": "cursor",
+              "value_type": "integer",
+              "required": false,
+              "allow_empty": true,
+              "description": "Parameter to manually handle pagination. Each response contains a `nextCursor` which can be used to retrieve the next page of results by sending it as the next `cursor`. If the `nextCursor` is not present in the response, it means that there are no more results to retrieve.",
+              "placeholder": "Masukkan cursor",
+              "default": 0
+            },
+            {
+              "name": "sorting",
+              "label": "Sorting",
+              "type": "select",
+              "value_type": "string",
+              "required": false,
+              "allow_empty": false,
+              "description": "Sort posts using a metric. 0=relevance, 1=most_used, 2=most_recent, 3=shortest, 4=longest.",
+              "placeholder": "Masukkan sorting",
+              "default": "0",
+              "options": [
+                {
+                  "value": "0",
+                  "label": "0"
+                },
+                {
+                  "value": "1",
+                  "label": "1"
+                },
+                {
+                  "value": "2",
+                  "label": "2"
+                },
+                {
+                  "value": "3",
+                  "label": "3"
+                },
+                {
+                  "value": "4",
+                  "label": "4"
+                }
+              ]
+            },
+            {
+              "name": "filter_by",
+              "label": "Filter By",
+              "type": "select",
+              "value_type": "string",
+              "required": false,
+              "allow_empty": false,
+              "description": "Filter posts by some value. 0=No filter applied, 1=search only titles, 2=search only creators.",
+              "placeholder": "Masukkan filter by",
+              "default": "0",
+              "options": [
+                {
+                  "value": "0",
+                  "label": "0"
+                },
+                {
+                  "value": "1",
+                  "label": "1"
+                },
+                {
+                  "value": "2",
+                  "label": "2"
+                }
+              ]
+            }
+          ],
+          "pagination": [
+            "cursor"
+          ],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "tiktok_music_posts",
+          "label": "Music Posts",
+          "path": "/tt/music/posts",
+          "method": "GET",
+          "description": "Fetch the videos which have a particular piece of music in the background. The `music_id` will need to be found from other APIs (any of the APIs that return posts, will also contain the music id for the music used in the video). See the `cursor` query parameter below for information on how to manage pagination (fetch more results). API Pricing (per reques...",
+          "parameters": [
+            {
+              "name": "music_id",
+              "label": "Music ID",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "The id for the piece of music.",
+              "placeholder": "Masukkan music id"
+            },
+            {
+              "name": "cursor",
+              "label": "Cursor",
+              "type": "cursor",
+              "value_type": "integer",
+              "required": false,
+              "allow_empty": true,
+              "description": "Parameter to manually handle pagination. Each response contains a `nextCursor` which can be used to retrieve the next page of results by sending it as the next `cursor`. If the `nextCursor` is not present in the response, it means that there are no more results to retrieve.",
+              "placeholder": "Masukkan cursor",
+              "default": 0
+            }
+          ],
+          "pagination": [
+            "cursor"
+          ],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "tiktok_post_comments",
+          "label": "Post Comments",
+          "path": "/tt/post/comments",
+          "method": "GET",
+          "description": "Fetch comments for a given post. Each request returns a chunk of 30 comments. See the `cursor` query parameter below for information on how to manage pagination (fetch more comments). API Pricing (per request) : 1 unit API usage examples - Aweme ID does not exist: -> null returned. Cost: 1 unit - Aweme ID exists and has 20 comments: -> 20 comments returne...",
+          "parameters": [
+            {
+              "name": "aweme_id",
+              "label": "Aweme ID",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "The aweme ID of the post (post ID).",
+              "placeholder": "Masukkan aweme id",
+              "min_length": 1
+            },
+            {
+              "name": "cursor",
+              "label": "Cursor",
+              "type": "cursor",
+              "value_type": "integer",
+              "required": false,
+              "allow_empty": true,
+              "description": "Parameter to manually handle pagination. Each response contains a `nextCursor` which can be used to retrieve the next page of results by sending it as the next `cursor`. If the `nextCursor` is not present in the response, it means that there are no more results to retrieve.",
+              "placeholder": "Masukkan cursor",
+              "default": 0
+            }
+          ],
+          "pagination": [
+            "cursor"
+          ],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "tiktok_post_comment_replies",
+          "label": "Post Comment Replies",
+          "path": "/tt/post/comments-replies",
+          "method": "GET",
+          "description": "Fetch the replies to a comments for a given post. Each request returns a chunk of 30 replies to a comment. See the `cursor` query parameter below for information on how to manage pagination (fetch more replies). API Pricing (per request) : 1 unit API usage examples - Comment ID does not exist: -> null returned. Cost: 1 unit - Comment ID exists and has 20...",
+          "parameters": [
+            {
+              "name": "aweme_id",
+              "label": "Aweme ID",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "The aweme ID of the post (post ID).",
+              "placeholder": "Masukkan aweme id"
+            },
+            {
+              "name": "comment_id",
+              "label": "Comment ID",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "The id of the comment to fetch replies for.",
+              "placeholder": "Masukkan comment id",
+              "min_length": 1
+            },
+            {
+              "name": "cursor",
+              "label": "Cursor",
+              "type": "cursor",
+              "value_type": "integer",
+              "required": false,
+              "allow_empty": true,
+              "description": "Parameter to manually handle pagination. Each response contains a `nextCursor` which can be used to retrieve the next page of results by sending it as the next `cursor`. If the `nextCursor` is not present in the response, it means that there are no more results to retrieve.",
+              "placeholder": "Masukkan cursor",
+              "default": 0
+            }
+          ],
+          "pagination": [
+            "cursor"
+          ],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "tiktok_post_info",
+          "label": "Post Info",
+          "path": "/tt/post/info",
+          "method": "GET",
+          "description": "Fetch post information and statistics from URL. API Pricing (per request) : 2 units Try the API",
+          "parameters": [
+            {
+              "name": "url",
+              "label": "Url",
+              "type": "url",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "The url of the post containing the username and video ID. You should be able to copy this value directly from the search bar in your browser.",
+              "placeholder": "Masukkan url"
+            },
+            {
+              "name": "new_version",
+              "label": "New Version",
+              "type": "boolean",
+              "value_type": "boolean",
+              "required": false,
+              "allow_empty": false,
+              "description": "Set to True to enable an alternate version of the TikTok API that returns only the essential fields, resulting in a faster response.",
+              "placeholder": "Masukkan new version",
+              "default": false
+            },
+            {
+              "name": "download_video",
+              "label": "Download Video",
+              "type": "boolean",
+              "value_type": "boolean",
+              "required": false,
+              "allow_empty": false,
+              "description": "When new_version=True, set this parameter to True to have the API include the cookie_download field within the video object, which is required for downloading content via the play or download URLs. This will NOT consume more units.",
+              "placeholder": "Masukkan download video",
+              "default": false
+            }
+          ],
+          "pagination": [],
+          "response_type": "object",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "tiktok_multi_post_info",
+          "label": "Multiple Post Info",
+          "path": "/tt/post/multi-info",
+          "method": "GET",
+          "description": "Fetch information for multiple post IDs. The endpoint can handle a maximum of 100 posts at once. The endpoint only returns the post information for posts that exist and that are not restricted by TikTok. API Pricing (per request) : 2 * #returned_posts units Try the API",
+          "parameters": [
+            {
+              "name": "ids",
+              "label": "Ids",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "Aweme IDs (Post IDs) separated by semicolons as shown in the example.",
+              "placeholder": "Masukkan ids",
+              "min_length": 2
+            },
+            {
+              "name": "new_version",
+              "label": "New Version",
+              "type": "boolean",
+              "value_type": "boolean",
+              "required": false,
+              "allow_empty": false,
+              "description": "Set to True to enable an alternate version of the TikTok API that returns only the essential fields, resulting in a faster response.",
+              "placeholder": "Masukkan new version",
+              "default": false
+            },
+            {
+              "name": "download_video",
+              "label": "Download Video",
+              "type": "boolean",
+              "value_type": "boolean",
+              "required": false,
+              "allow_empty": false,
+              "description": "When new_version=True, set this parameter to True to have the API include the cookie_download field within the video object, which is required for downloading content via the play or download URLs. This will NOT consume more units.",
+              "placeholder": "Masukkan download video",
+              "default": false
+            }
+          ],
+          "pagination": [],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "tiktok_user_followers",
+          "label": "User Followers",
+          "path": "/tt/user/followers",
+          "method": "GET",
+          "description": "Fetch followers for a given user. Each request returns a chunk of 100 followers. See the `cursor` query parameter below for information on how to manage pagination (fetch more followers). Tiktok returns in total the 10,000 most recent followers. Note: if the `secUid` doesn't exists, the cost is just 1 unit. API Pricing (per request) : 2 units API usage ex...",
+          "parameters": [
+            {
+              "name": "id",
+              "label": "Id",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "The id of the user.",
+              "placeholder": "Masukkan id"
+            },
+            {
+              "name": "secUid",
+              "label": "Sec Uid",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "The secondary id of the user.",
+              "placeholder": "Masukkan sec uid",
+              "min_length": 1
+            },
+            {
+              "name": "cursor",
+              "label": "Cursor",
+              "type": "cursor",
+              "value_type": "integer",
+              "required": false,
+              "allow_empty": true,
+              "description": "Parameter to manually handle pagination. Each response contains a `nextCursor` which can be used to retrieve the next page of results by sending it as the next `cursor`. If the `nextCursor` is not present in the response, it means that there are no more results to retrieve.",
+              "placeholder": "Masukkan cursor",
+              "default": 0
+            },
+            {
+              "name": "page_token",
+              "label": "Page Token",
+              "type": "cursor",
+              "value_type": "string",
+              "required": false,
+              "allow_empty": true,
+              "description": "Secondary cursor to manage pagination (initially empty). The `page_token` for next request is returned by the previous response as the `nextPageToken`. This works in the same way as the `cursor` parameter.",
+              "placeholder": "Masukkan page token",
+              "default": ""
+            }
+          ],
+          "pagination": [
+            "cursor",
+            "page_token"
+          ],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "tiktok_user_followings",
+          "label": "User Followings",
+          "path": "/tt/user/followings",
+          "method": "GET",
+          "description": "Fetch followings for a given user. Each request returns a chunk of 100 followings. See the `cursor` and `page_token` query parameters below for information on how to manage pagination (fetch more followings). Note: if the `secUid` doesn't exists, the cost is just 1 unit. API Pricing (per request) : 2 units API usage examples - secUid does not exist: -> nu...",
+          "parameters": [
+            {
+              "name": "id",
+              "label": "Id",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "The id of the user.",
+              "placeholder": "Masukkan id"
+            },
+            {
+              "name": "secUid",
+              "label": "Sec Uid",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "The secondary id of the user.",
+              "placeholder": "Masukkan sec uid",
+              "min_length": 1
+            },
+            {
+              "name": "cursor",
+              "label": "Cursor",
+              "type": "cursor",
+              "value_type": "integer",
+              "required": false,
+              "allow_empty": true,
+              "description": "Parameter to manually handle pagination. Each response contains a `nextCursor` which can be used to retrieve the next page of results by sending it as the next `cursor`. If the `nextCursor` is not present in the response, it means that there are no more results to retrieve.",
+              "placeholder": "Masukkan cursor",
+              "default": 0
+            },
+            {
+              "name": "page_token",
+              "label": "Page Token",
+              "type": "cursor",
+              "value_type": "string",
+              "required": false,
+              "allow_empty": true,
+              "description": "Secondary cursor to manage pagination (initially empty). The `page_token` for next request is returned by the previous response as the `nextPageToken`. This works in the same way as the `cursor` parameter.",
+              "placeholder": "Masukkan page token",
+              "default": ""
+            }
+          ],
+          "pagination": [
+            "cursor",
+            "page_token"
+          ],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "tiktok_user_info_from_username",
+          "label": "User Info From Username",
+          "path": "/tt/user/info",
+          "method": "GET",
+          "description": "Fetch user information and statistics from their username. The data returned includes country, language, biography, profile picture, engagement statistics etc. API Pricing (per request) : 1 unit API usage examples - Username does not exist: -> null returned. Cost: 1 unit - Username exists: -> info returned. Cost: 1 unit Try the API",
+          "parameters": [
+            {
+              "name": "username",
+              "label": "Username",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "The username to fetch info for.",
+              "placeholder": "Masukkan username",
+              "min_length": 1
+            }
+          ],
+          "pagination": [],
+          "response_type": "object",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "tiktok_user_info_from_secuid",
+          "label": "User Info From Secuid",
+          "path": "/tt/user/info-from-secuid",
+          "method": "GET",
+          "description": "Fetch user information and statistics from their secondary user ID. The data returned includes country, language, biography, profile picture, engagement statistics etc. API Pricing (per request) : 1 unit API usage examples - secUid does not exist: -> null returned. Cost: 1 unit - secUid exists: -> info returned. Cost: 1 unit Try the API",
+          "parameters": [
+            {
+              "name": "secUid",
+              "label": "Sec Uid",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "The secondary user ID to fetch info for.",
+              "placeholder": "Masukkan sec uid",
+              "min_length": 1
+            },
+            {
+              "name": "alternative_method",
+              "label": "Alternative Method",
+              "type": "boolean",
+              "value_type": "boolean",
+              "required": false,
+              "allow_empty": false,
+              "description": "Use an alternative endpoint for fetching the data. If true, the returned JSON contains some additional information compared to the default method.",
+              "placeholder": "Masukkan alternative method",
+              "default": false
+            }
+          ],
+          "pagination": [],
+          "response_type": "object",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "tiktok_user_liked_posts",
+          "label": "User Liked Posts",
+          "path": "/tt/user/liked-posts",
+          "method": "GET",
+          "description": "Fetch the list of liked posts of a user (only if publicly available). See the `cursor` query parameter below for information on how to manage pagination (fetch more posts). API Pricing (per request) : 1 unit Try the API",
+          "parameters": [
+            {
+              "name": "secUid",
+              "label": "Sec Uid",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "The secondary id of the user.",
+              "placeholder": "Masukkan sec uid",
+              "min_length": 1
+            },
+            {
+              "name": "cursor",
+              "label": "Cursor",
+              "type": "cursor",
+              "value_type": "integer",
+              "required": false,
+              "allow_empty": true,
+              "description": "Parameter to manually handle pagination. Each response contains a `nextCursor` which can be used to retrieve the next page of results by sending it as the next `cursor`. If the `nextCursor` is not present in the response, it means that there are no more results to retrieve.",
+              "placeholder": "Masukkan cursor",
+              "default": 0
+            }
+          ],
+          "pagination": [
+            "cursor"
+          ],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "tiktok_user_posts_from_username",
+          "label": "User Posts From Username",
+          "path": "/tt/user/posts",
+          "method": "GET",
+          "description": "Fetch user posts from their username. Depth 1 returns the 10 most recent posts, depth N returns the N * 10 most recent posts. The endpoint only returns posts that are not restricted by TikTok. API Pricing (per request) : 1 + depth units API usage examples - Username does not exist: -> 0 posts returned. Cost: 1 unit - Username exists, but user does not hav...",
+          "parameters": [
+            {
+              "name": "username",
+              "label": "Username",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "Username of the user.",
+              "placeholder": "Masukkan username",
+              "min_length": 1
+            },
+            {
+              "name": "depth",
+              "label": "Depth",
+              "type": "integer",
+              "value_type": "integer",
+              "required": true,
+              "allow_empty": false,
+              "description": "Abstraction of the API pagination. Depth 1 returns X results, depth N returns N * X results. Note that the exact number of results per depth (X) may differ per endpoint. Please refer to the specific endpoint description for more information.",
+              "placeholder": "Masukkan depth",
+              "minimum": 1
+            },
+            {
+              "name": "start_cursor",
+              "label": "Start Cursor",
+              "type": "cursor",
+              "value_type": "integer",
+              "required": false,
+              "allow_empty": true,
+              "description": "Parameter to manually handle pagination. Each response contains a `nextCursor` which can be used to retrieve the next page of results by sending it as the next `start_cursor`. If the `nextCursor` is not present in the response, it means that there are no more results to retrieve.",
+              "placeholder": "Masukkan start cursor",
+              "default": 0
+            },
+            {
+              "name": "oldest_createtime",
+              "label": "Oldest Createtime",
+              "type": "integer",
+              "value_type": "integer",
+              "required": false,
+              "allow_empty": false,
+              "description": "This parameter is used as a stopping condition for fetching posts. If a post older than the provided `oldest_createtime` is found, the system will stop fetching posts and return the results. For instance, if depth is 10, the system will aim to send 10 requests. However, if an `oldest_createtime` is set, and we find a post which is older than the `oldest_c...",
+              "placeholder": "Masukkan oldest createtime"
+            },
+            {
+              "name": "new_version",
+              "label": "New Version",
+              "type": "boolean",
+              "value_type": "boolean",
+              "required": false,
+              "allow_empty": false,
+              "description": "Set to True to enable an alternate version of the TikTok API that returns only the essential fields, resulting in a faster response.",
+              "placeholder": "Masukkan new version",
+              "default": false
+            },
+            {
+              "name": "download_video",
+              "label": "Download Video",
+              "type": "boolean",
+              "value_type": "boolean",
+              "required": false,
+              "allow_empty": false,
+              "description": "When new_version=True, set this parameter to True to have the API include the cookie_download field within the video object, which is required for downloading content via the play or download URLs. This will NOT consume more units.",
+              "placeholder": "Masukkan download video",
+              "default": false
+            }
+          ],
+          "pagination": [
+            "depth",
+            "start_cursor"
+          ],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "tiktok_user_posts_from_secuid",
+          "label": "User Posts From Secuid",
+          "path": "/tt/user/posts-from-secuid",
+          "method": "GET",
+          "description": "Fetch user posts from their secondary user ID. Depth 1 returns the 10 most recent posts, depth N returns the N * 10 most recent posts. The endpoint only returns posts that are not restricted by TikTok. API Pricing (per request) : depth units API usage examples - secUid does not exist: -> 0 posts returned. Cost: 1 unit - secUid exists, but user does not ha...",
+          "parameters": [
+            {
+              "name": "secUid",
+              "label": "Sec Uid",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "The user's secondary user ID.",
+              "placeholder": "Masukkan sec uid",
+              "min_length": 1
+            },
+            {
+              "name": "depth",
+              "label": "Depth",
+              "type": "integer",
+              "value_type": "integer",
+              "required": true,
+              "allow_empty": false,
+              "description": "Abstraction of the API pagination. Depth 1 returns X results, depth N returns N * X results. Note that the exact number of results per depth (X) may differ per endpoint. Please refer to the specific endpoint description for more information.",
+              "placeholder": "Masukkan depth",
+              "minimum": 1
+            },
+            {
+              "name": "start_cursor",
+              "label": "Start Cursor",
+              "type": "cursor",
+              "value_type": "integer",
+              "required": false,
+              "allow_empty": true,
+              "description": "Parameter to manually handle pagination. Each response contains a `nextCursor` which can be used to retrieve the next page of results by sending it as the next `start_cursor`. If the `nextCursor` is not present in the response, it means that there are no more results to retrieve.",
+              "placeholder": "Masukkan start cursor",
+              "default": 0
+            },
+            {
+              "name": "oldest_createtime",
+              "label": "Oldest Createtime",
+              "type": "integer",
+              "value_type": "integer",
+              "required": false,
+              "allow_empty": false,
+              "description": "This parameter is used as a stopping condition for fetching posts. If a post older than the provided `oldest_createtime` is found, the system will stop fetching posts and return the results. For instance, if depth is 10, the system will aim to send 10 requests. However, if an `oldest_createtime` is set, and we find a post which is older than the `oldest_c...",
+              "placeholder": "Masukkan oldest createtime"
+            },
+            {
+              "name": "new_version",
+              "label": "New Version",
+              "type": "boolean",
+              "value_type": "boolean",
+              "required": false,
+              "allow_empty": false,
+              "description": "Set to True to enable an alternate version of the TikTok API that returns only the essential fields, resulting in a faster response.",
+              "placeholder": "Masukkan new version",
+              "default": false
+            },
+            {
+              "name": "download_video",
+              "label": "Download Video",
+              "type": "boolean",
+              "value_type": "boolean",
+              "required": false,
+              "allow_empty": false,
+              "description": "When new_version=True, set this parameter to True to have the API include the cookie_download field within the video object, which is required for downloading content via the play or download URLs. This will NOT consume more units.",
+              "placeholder": "Masukkan download video",
+              "default": false
+            }
+          ],
+          "pagination": [
+            "depth",
+            "start_cursor"
+          ],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "tiktok_user_search",
+          "label": "User Search",
+          "path": "/tt/user/search",
+          "method": "GET",
+          "description": "Fetch list of users whose username might be related to the given keyword. API Pricing (per request) : 2 units Try the API",
+          "parameters": [
+            {
+              "name": "keyword",
+              "label": "Keyword",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "Keyword to search users from.",
+              "placeholder": "Masukkan keyword",
+              "min_length": 1
+            },
+            {
+              "name": "cursor",
+              "label": "Cursor",
+              "type": "cursor",
+              "value_type": "integer",
+              "required": false,
+              "allow_empty": true,
+              "description": "Parameter to manually handle pagination. Each response contains a `nextCursor` which can be used to retrieve the next page of results by sending it as the next `cursor`. If the `nextCursor` is not present in the response, it means that there are no more results to retrieve.",
+              "placeholder": "Masukkan cursor",
+              "default": 0
+            }
+          ],
+          "pagination": [
+            "cursor"
+          ],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        }
+      ]
+    },
+    {
+      "id": "instagram",
+      "name": "Instagram",
+      "endpoints": [
+        {
+          "id": "instagram_music_posts",
+          "label": "Music Posts",
+          "path": "/instagram/music/posts",
+          "method": "GET",
+          "description": "Fetch posts from a music ID. See the `cursor` query parameter below for information on how to manage pagination (fetch more posts). API Pricing (per request) : #returned_posts units Try the API",
+          "parameters": [
+            {
+              "name": "id",
+              "label": "Id",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "Music ID.",
+              "placeholder": "Masukkan id",
+              "min_length": 2
+            },
+            {
+              "name": "cursor",
+              "label": "Cursor",
+              "type": "cursor",
+              "value_type": "string",
+              "required": false,
+              "allow_empty": true,
+              "description": "Parameter to manually handle pagination. Each response contains a `nextCursor` which can be used to retrieve the next page of results by sending it as the next `cursor`. If the `nextCursor` is not present in the response, it means that there are no more results to retrieve.",
+              "placeholder": "Masukkan cursor",
+              "default": ""
+            }
+          ],
+          "pagination": [
+            "cursor"
+          ],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "instagram_post_comments",
+          "label": "Post Comments",
+          "path": "/instagram/post/comments",
+          "method": "GET",
+          "description": "Fetch post POPULAR (only ~ 15) or RECENT comments. Popular comments only can be fetched with empty cursor, no more are shown. Recent comments can be paginated over using the cursor. API Pricing (per request) : 2 units Try the API",
+          "parameters": [
+            {
+              "name": "media_id",
+              "label": "Media ID",
+              "type": "integer",
+              "value_type": "integer",
+              "required": true,
+              "allow_empty": false,
+              "description": "Media ID can be found using the other APIs.",
+              "placeholder": "Masukkan media id"
+            },
+            {
+              "name": "cursor",
+              "label": "Cursor",
+              "type": "cursor",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": true,
+              "description": "Parameter to manually handle pagination. Each response contains a `nextCursor` which can be used to retrieve the next page of results by sending it as the next `cursor`. If the `nextCursor` is not present in the response, it means that there are no more results to retrieve.",
+              "placeholder": "Masukkan cursor"
+            },
+            {
+              "name": "sorting",
+              "label": "Sorting",
+              "type": "select",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "Fetch TOP comments (only 15 allowed) OR RECENT (start from most recent and iterate)",
+              "placeholder": "Masukkan sorting",
+              "options": [
+                {
+                  "value": "popular",
+                  "label": "Popular"
+                },
+                {
+                  "value": "recent",
+                  "label": "Recent"
+                }
+              ]
+            }
+          ],
+          "pagination": [
+            "cursor"
+          ],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "instagram_post_info_and_comments",
+          "label": "Post Info & Comments",
+          "path": "/instagram/post/details",
+          "method": "GET",
+          "description": "Fetch post information and statistics from shortcode. Additionally, the 50 most recent comments in the post can be fetched. N.B. = Video Play Counts (video_play_count) are the total number of views only for Instagram. Reels posted on both Instagram and Facebook, might show a higher amount of views when logged in, because it is the combination of Instagram...",
+          "parameters": [
+            {
+              "name": "code",
+              "label": "Code",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "Shortcode of the post.",
+              "placeholder": "Masukkan code"
+            },
+            {
+              "name": "n_comments_to_fetch",
+              "label": "N Comments To Fetch",
+              "type": "integer",
+              "value_type": "integer",
+              "required": false,
+              "allow_empty": false,
+              "description": "How many comments to fetch per post (max allowed is 50).",
+              "placeholder": "Masukkan n comments to fetch",
+              "default": 0
+            }
+          ],
+          "pagination": [],
+          "response_type": "object",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "instagram_search",
+          "label": "Search",
+          "path": "/instagram/search",
+          "method": "GET",
+          "description": "Fetch users, places and hashtags information from text. API Pricing (per request) : 4 units Try the API",
+          "parameters": [
+            {
+              "name": "text",
+              "label": "Text",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "Text to search.",
+              "placeholder": "Masukkan text"
+            }
+          ],
+          "pagination": [],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "instagram_user_basic_stats",
+          "label": "User Basic Stats",
+          "path": "/instagram/user/basic-info",
+          "method": "GET",
+          "description": "Fetch basic user information from their user ID. API Pricing (per request) : 4 units Try the API",
+          "parameters": [
+            {
+              "name": "user_id",
+              "label": "User ID",
+              "type": "integer",
+              "value_type": "integer",
+              "required": true,
+              "allow_empty": false,
+              "description": "ID of the user.",
+              "placeholder": "Masukkan user id",
+              "minimum": 0
+            }
+          ],
+          "pagination": [],
+          "response_type": "object",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "instagram_user_detailed_info",
+          "label": "User Detailed Info",
+          "path": "/instagram/user/detailed-info",
+          "method": "GET",
+          "description": "Fetch detailed user info from their username. API Pricing (per request) : 10 units Try the API",
+          "parameters": [
+            {
+              "name": "username",
+              "label": "Username",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "The user's username.",
+              "placeholder": "Masukkan username",
+              "min_length": 1
+            }
+          ],
+          "pagination": [],
+          "response_type": "object",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "instagram_user_followers",
+          "label": "User Follower Count",
+          "path": "/instagram/user/followers",
+          "method": "GET",
+          "description": "Fetch the number of followers from a user ID. API Pricing (per request) : 2 units Try the API",
+          "parameters": [
+            {
+              "name": "user_id",
+              "label": "User ID",
+              "type": "integer",
+              "value_type": "integer",
+              "required": true,
+              "allow_empty": false,
+              "description": "ID of the user.",
+              "placeholder": "Masukkan user id",
+              "minimum": 0
+            }
+          ],
+          "pagination": [],
+          "response_type": "object",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "instagram_user_info",
+          "label": "User Info",
+          "path": "/instagram/user/info",
+          "method": "GET",
+          "description": "Fetch user info from their username. API Pricing (per request) : 3 units Try the API",
+          "parameters": [
+            {
+              "name": "username",
+              "label": "Username",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "The user's username.",
+              "placeholder": "Masukkan username"
+            }
+          ],
+          "pagination": [],
+          "response_type": "object",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "instagram_user_posts",
+          "label": "User Posts",
+          "path": "/instagram/user/posts",
+          "method": "GET",
+          "description": "Fetch user posts from the user ID. Returns `depth` * `chunk_size` results. Note: if no posts can be retrieved the cost is 1. See the `start_cursor` and `depth` query parameters below for information on how to manage pagination (fetch more posts). API Pricing (per request) : #returned_posts units API usage examples - User does not exist: -> 0 posts returne...",
+          "parameters": [
+            {
+              "name": "user_id",
+              "label": "User ID",
+              "type": "integer",
+              "value_type": "integer",
+              "required": true,
+              "allow_empty": false,
+              "description": "ID of the user.",
+              "placeholder": "Masukkan user id",
+              "minimum": 0
+            },
+            {
+              "name": "depth",
+              "label": "Depth",
+              "type": "integer",
+              "value_type": "integer",
+              "required": true,
+              "allow_empty": false,
+              "description": "Abstraction of the API pagination. Depth 1 returns X results, depth N returns N * X results. Note that the exact number of results per depth (X) may differ per endpoint. Please refer to the specific endpoint description for more information.",
+              "placeholder": "Masukkan depth",
+              "minimum": 1
+            },
+            {
+              "name": "oldest_timestamp",
+              "label": "Oldest Timestamp",
+              "type": "integer",
+              "value_type": "integer",
+              "required": false,
+              "allow_empty": false,
+              "description": "This parameter is used as a stopping condition for fetching posts. If a post older than the provided `oldest_timestamp` is found, the system will stop fetching posts and return the results. For instance, if depth is 10, the system will aim to send 10 requests. However, if an `oldest_timestamp` is set, and we find a post which is older than the `oldest_tim...",
+              "placeholder": "Masukkan oldest timestamp"
+            },
+            {
+              "name": "chunk_size",
+              "label": "Chunk Size",
+              "type": "integer",
+              "value_type": "integer",
+              "required": false,
+              "allow_empty": false,
+              "description": "The number of posts to fetch per depth. If alternative_method=False, the maximum allowed chunk_size is 20. If alternative_method=True, the maximum chunk_size is 12.",
+              "placeholder": "Masukkan chunk size",
+              "default": 10,
+              "minimum": 1.0,
+              "maximum": 20.0
+            },
+            {
+              "name": "start_cursor",
+              "label": "Start Cursor",
+              "type": "cursor",
+              "value_type": "string",
+              "required": false,
+              "allow_empty": true,
+              "description": "Parameter to manually handle pagination. Each response contains a `last_cursor` which can be used to retrieve the next page of results by sending it as the next `start_cursor`. If the `last_cursor` is not present in the response, it means that there are no more results to retrieve.",
+              "placeholder": "Masukkan start cursor",
+              "default": ""
+            },
+            {
+              "name": "alternative_method",
+              "label": "Alternative Method",
+              "type": "boolean",
+              "value_type": "boolean",
+              "required": false,
+              "allow_empty": false,
+              "description": "If true, use a different method to fetch the user posts from the ID (this method returns at least 1 non pinned post when `start_cursor` is an empty string). The response JSON will be differ from the default method.",
+              "placeholder": "Masukkan alternative method",
+              "default": false
+            }
+          ],
+          "pagination": [
+            "depth",
+            "start_cursor"
+          ],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "instagram_user_reels",
+          "label": "User Reels",
+          "path": "/instagram/user/reels",
+          "method": "GET",
+          "description": "Fetch the user's reels from their user ID. Depth 1 returns 10 results, depth N returns N * 10 results. See the `depth` and `cursor` query parameters below for information on how to manage pagination (fetch more reels). API Pricing (per request) : #returned_reels units Try the API",
+          "parameters": [
+            {
+              "name": "user_id",
+              "label": "User ID",
+              "type": "integer",
+              "value_type": "integer",
+              "required": true,
+              "allow_empty": false,
+              "description": "User ID.",
+              "placeholder": "Masukkan user id",
+              "minimum": 0
+            },
+            {
+              "name": "depth",
+              "label": "Depth",
+              "type": "integer",
+              "value_type": "integer",
+              "required": true,
+              "allow_empty": false,
+              "description": "Abstraction of the API pagination. Depth 1 returns X results, depth N returns N * X results. Note that the exact number of results per depth (X) may differ per endpoint. Please refer to the specific endpoint description for more information.",
+              "placeholder": "Masukkan depth",
+              "minimum": 1
+            },
+            {
+              "name": "include_feed_video",
+              "label": "Include Feed Video",
+              "type": "boolean",
+              "value_type": "boolean",
+              "required": false,
+              "allow_empty": false,
+              "description": "If true, also includes videos posted in user feed.",
+              "placeholder": "Masukkan include feed video",
+              "default": true
+            },
+            {
+              "name": "oldest_timestamp",
+              "label": "Oldest Timestamp",
+              "type": "integer",
+              "value_type": "integer",
+              "required": false,
+              "allow_empty": false,
+              "description": "This parameter is used as a stopping condition for fetching posts. If a post older than the provided `oldest_timestamp` is found, the system will stop fetching posts and return the results. For instance, if depth is 10, the system will aim to send 10 requests. However, if an `oldest_timestamp` is set, and we find a post which is older than the `oldest_tim...",
+              "placeholder": "Masukkan oldest timestamp"
+            },
+            {
+              "name": "start_cursor",
+              "label": "Start Cursor",
+              "type": "cursor",
+              "value_type": "string",
+              "required": false,
+              "allow_empty": true,
+              "description": "Parameter to manually handle pagination. Each response contains a `nextCursor` which can be used to retrieve the next page of results by sending it as the next `start_cursor`. If the `nextCursor` is not present in the response, it means that there are no more results to retrieve.",
+              "placeholder": "Masukkan start cursor",
+              "default": ""
+            },
+            {
+              "name": "chunk_size",
+              "label": "Chunk Size",
+              "type": "integer",
+              "value_type": "integer",
+              "required": false,
+              "allow_empty": false,
+              "description": "The number of reels to fetch per `depth`.",
+              "placeholder": "Masukkan chunk size",
+              "default": 10,
+              "minimum": 3
+            }
+          ],
+          "pagination": [
+            "depth",
+            "start_cursor"
+          ],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "instagram_user_tagged_posts",
+          "label": "User Tagged Posts",
+          "path": "/instagram/user/tagged-posts",
+          "method": "GET",
+          "description": "Fetch posts for which the given user ID has been tagged. Each call returns the 10 most recent posts where the user has been tagged. See the `cursor` query parameter below for information on how to manage pagination (fetch more posts). API Pricing (per request) : #returned_posts units Try the API",
+          "parameters": [
+            {
+              "name": "user_id",
+              "label": "User ID",
+              "type": "integer",
+              "value_type": "integer",
+              "required": true,
+              "allow_empty": false,
+              "description": "User ID.",
+              "placeholder": "Masukkan user id",
+              "minimum": 0
+            },
+            {
+              "name": "cursor",
+              "label": "Cursor",
+              "type": "cursor",
+              "value_type": "string",
+              "required": false,
+              "allow_empty": true,
+              "description": "Parameter to manually handle pagination. Each response contains a `nextCursor` which can be used to retrieve the next page of results by sending it as the next `cursor`. If the `nextCursor` is not present in the response, it means that there are no more results to retrieve.",
+              "placeholder": "Masukkan cursor",
+              "default": ""
+            },
+            {
+              "name": "chunk_size",
+              "label": "Chunk Size",
+              "type": "integer",
+              "value_type": "integer",
+              "required": false,
+              "allow_empty": false,
+              "description": "Number of posts to fetch per request.",
+              "placeholder": "Masukkan chunk size",
+              "default": 10,
+              "minimum": 1
+            }
+          ],
+          "pagination": [
+            "cursor"
+          ],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        }
+      ]
+    },
+    {
+      "id": "youtube",
+      "name": "YouTube",
+      "endpoints": [
+        {
+          "id": "youtube_channel_detailed_info",
+          "label": "Channel Detailed Info",
+          "path": "/youtube/channel/detailed-info",
+          "method": "GET",
+          "description": "Get detailed information for a specific Youtube channel from its ID (youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA). API Pricing (per request) : 2 units Try the API",
+          "parameters": [
+            {
+              "name": "browseId",
+              "label": "Browse ID",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "Channel ID.",
+              "placeholder": "Masukkan browse id",
+              "min_length": 4
+            },
+            {
+              "name": "from_url",
+              "label": "From Url",
+              "type": "boolean",
+              "value_type": "boolean",
+              "required": false,
+              "allow_empty": false,
+              "description": "if true, the `browseId` needs to be a url like youtube.com/@... OR youtube.com/channel/... OR youtube.com/c/.... If True, 1 extra unit is charged.",
+              "placeholder": "Masukkan from url",
+              "default": false
+            },
+            {
+              "name": "get_additional_info",
+              "label": "Get Additional Info",
+              "type": "boolean",
+              "value_type": "boolean",
+              "required": false,
+              "allow_empty": false,
+              "description": "Fetch additional information for the channel (title, avatars, thumbails...) If True, 1 extra unit is charged.",
+              "placeholder": "Masukkan get additional info",
+              "default": false
+            }
+          ],
+          "pagination": [],
+          "response_type": "object",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "youtube_channel_subscribers",
+          "label": "Channel Subscriber Count",
+          "path": "/youtube/channel/followers",
+          "method": "GET",
+          "description": "Fetch the number of subscribers for a channel from its ID (youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA). API Pricing (per request) : 1 unit Try the API",
+          "parameters": [
+            {
+              "name": "browseId",
+              "label": "Browse ID",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "Channel ID.",
+              "placeholder": "Masukkan browse id",
+              "min_length": 5
+            }
+          ],
+          "pagination": [],
+          "response_type": "object",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "youtube_video_details",
+          "label": "Video / Short Details",
+          "path": "/youtube/channel/get-short-stats",
+          "method": "GET",
+          "description": "Fetch statistics for a Youtube short or video from its channel ID (youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA). API Pricing (per request) : 1 unit Try the API",
+          "parameters": [
+            {
+              "name": "id",
+              "label": "Id",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "Youtube short or video ID.",
+              "placeholder": "Masukkan id",
+              "min_length": 1
+            },
+            {
+              "name": "alternative_method",
+              "label": "Alternative Method",
+              "type": "boolean",
+              "value_type": "boolean",
+              "required": false,
+              "allow_empty": false,
+              "description": "If true, Uses a different method to fetch the statistics for the Youtube short or video. The response JSON will differ from the default method.",
+              "placeholder": "Masukkan alternative method",
+              "default": false
+            },
+            {
+              "name": "get_subscribers_count",
+              "label": "Get Subscribers Count",
+              "type": "boolean",
+              "value_type": "boolean",
+              "required": false,
+              "allow_empty": false,
+              "description": "If true, fetches the number of subscribers for the channel owner of the video. 1 additional unit is charged.",
+              "placeholder": "Masukkan get subscribers count",
+              "default": false
+            }
+          ],
+          "pagination": [],
+          "response_type": "object",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "youtube_channel_id_to_username",
+          "label": "Channel Id To Username",
+          "path": "/youtube/channel/id-to-name",
+          "method": "GET",
+          "description": "Get the channel username (youtube.com/@MrBeast) from the channel ID (youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA). API Pricing (per request) : 1 unit Try the API",
+          "parameters": [
+            {
+              "name": "browseId",
+              "label": "Browse ID",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "Channel ID.",
+              "placeholder": "Masukkan browse id",
+              "min_length": 4
+            }
+          ],
+          "pagination": [],
+          "response_type": "object",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "youtube_channel_username_to_id",
+          "label": "Channel Username To Id",
+          "path": "/youtube/channel/name-to-id",
+          "method": "GET",
+          "description": "Get the channel ID (youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA) from the channel username (youtube.com/@MrBeast). API Pricing (per request) : 1 unit Try the API",
+          "parameters": [
+            {
+              "name": "name",
+              "label": "Name",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "Channel username.",
+              "placeholder": "Masukkan name",
+              "min_length": 1
+            }
+          ],
+          "pagination": [],
+          "response_type": "object",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "youtube_channel_shorts",
+          "label": "Channel Shorts",
+          "path": "/youtube/channel/shorts",
+          "method": "GET",
+          "description": "Fetch Youtube Shorts for a given channel from its ID (youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA). Depth 1 returns approx. 50 videos, Depth N returns approx. 50 * N videos. API Pricing (per request) : #returned_shorts / 10 units API usage examples - Depth 1: -> 53 shorts returned. Cost: 6 units - Depth 5 but channel only has 20 shorts: -> 20 shorts retu...",
+          "parameters": [
+            {
+              "name": "browseId",
+              "label": "Browse ID",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "Channel ID.",
+              "placeholder": "Masukkan browse id",
+              "min_length": 4
+            },
+            {
+              "name": "depth",
+              "label": "Depth",
+              "type": "integer",
+              "value_type": "integer",
+              "required": true,
+              "allow_empty": false,
+              "description": "Abstraction of the API pagination. Depth 1 returns X results, depth N returns N * X results. Note that the exact number of results per depth (X) may differ per endpoint. Please refer to the specific endpoint description for more information.",
+              "placeholder": "Masukkan depth",
+              "minimum": 1
+            }
+          ],
+          "pagination": [
+            "depth"
+          ],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "youtube_channel_streams",
+          "label": "Channel Streams",
+          "path": "/youtube/channel/streams",
+          "method": "GET",
+          "description": "Fetch Youtube Live Streams for a given channel from its ID (youtube.com/channel/UChBQgieUidXV1CmDxSdRm3g). Depth 1 returns approx. 30 videos, Depth N returns approx. 30 * N videos. API Pricing (per request) : #returned_streams / 10 units API usage examples - Depth 1: -> 30 streams returned. Cost: 3 units - Depth 5 but channel only has 20 streams: -> 20 st...",
+          "parameters": [
+            {
+              "name": "browseId",
+              "label": "Browse ID",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "Channel ID.",
+              "placeholder": "Masukkan browse id",
+              "min_length": 4
+            },
+            {
+              "name": "depth",
+              "label": "Depth",
+              "type": "integer",
+              "value_type": "integer",
+              "required": true,
+              "allow_empty": false,
+              "description": "Abstraction of the API pagination. Depth 1 returns X results, depth N returns N * X results. Note that the exact number of results per depth (X) may differ per endpoint. Please refer to the specific endpoint description for more information.",
+              "placeholder": "Masukkan depth",
+              "minimum": 1
+            }
+          ],
+          "pagination": [
+            "depth"
+          ],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "youtube_channel_videos",
+          "label": "Channel Videos",
+          "path": "/youtube/channel/videos",
+          "method": "GET",
+          "description": "Fetch videos for a given channel from its ID (youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA). Depth 1 returns approx. 25 videos, Depth N returns approx. 25 * N videos. API Pricing (per request) : #returned_videos / 10 units API usage examples - Depth 1: -> 22 videos returned. Cost: 3 units - Depth 5 but channel has only 20 videos: -> 20 videos returned. Co...",
+          "parameters": [
+            {
+              "name": "browseId",
+              "label": "Browse ID",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "Channel ID.",
+              "placeholder": "Masukkan browse id",
+              "min_length": 5
+            },
+            {
+              "name": "depth",
+              "label": "Depth",
+              "type": "integer",
+              "value_type": "integer",
+              "required": true,
+              "allow_empty": false,
+              "description": "Abstraction of the API pagination. Depth 1 returns X results, depth N returns N * X results. Note that the exact number of results per depth (X) may differ per endpoint. Please refer to the specific endpoint description for more information.",
+              "placeholder": "Masukkan depth",
+              "minimum": 1
+            }
+          ],
+          "pagination": [
+            "depth"
+          ],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "youtube_hashtag_search",
+          "label": "Hashtag Search",
+          "path": "/youtube/hashtag/search",
+          "method": "GET",
+          "description": "Fetch videos from a given hashtag. Depth 1 returns approx. 35 videos, Depth N returns approx. 35 * N videos. The videos are fetched directly from https://www.youtube.com/hashtag/magic. API Pricing (per request) : #returned_videos / 20 units Try the API",
+          "parameters": [
+            {
+              "name": "name",
+              "label": "Name",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "The hashtag to base the search on.",
+              "placeholder": "Masukkan name",
+              "min_length": 1
+            },
+            {
+              "name": "depth",
+              "label": "Depth",
+              "type": "integer",
+              "value_type": "integer",
+              "required": true,
+              "allow_empty": false,
+              "description": "Abstraction of the API pagination. Depth 1 returns X results, depth N returns N * X results. Note that the exact number of results per depth (X) may differ per endpoint. Please refer to the specific endpoint description for more information.",
+              "placeholder": "Masukkan depth",
+              "minimum": 1
+            },
+            {
+              "name": "only_shorts",
+              "label": "Only Shorts",
+              "type": "boolean",
+              "value_type": "boolean",
+              "required": false,
+              "allow_empty": false,
+              "description": "If true, only fetches shorts.",
+              "placeholder": "Masukkan only shorts",
+              "default": false
+            }
+          ],
+          "pagination": [
+            "depth"
+          ],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "youtube_music_id_to_shorts",
+          "label": "Music Id To Shorts",
+          "path": "/youtube/music/id-to-shorts",
+          "method": "GET",
+          "description": "Get shorts using a specific music ID. You can find the music ID using the `Video / Short Details` endpoint. It will be in the response inside the url at 'panels[-1].engagementPanelSectionListRenderer.content.richGridRenderer.contents[0].continuationItemRenderer.continuationItemRenderer.continuationCommand.token'. Depth 1 returns approx. 15 videos, Depth N...",
+          "parameters": [
+            {
+              "name": "id",
+              "label": "Id",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "Music ID.",
+              "placeholder": "Masukkan id",
+              "min_length": 1
+            },
+            {
+              "name": "depth",
+              "label": "Depth",
+              "type": "integer",
+              "value_type": "integer",
+              "required": false,
+              "allow_empty": false,
+              "description": "Abstraction of the API pagination. Depth 1 returns X results, depth N returns N * X results. Note that the exact number of results per depth (X) may differ per endpoint. Please refer to the specific endpoint description for more information.",
+              "placeholder": "Masukkan depth",
+              "default": 1,
+              "minimum": 1
+            }
+          ],
+          "pagination": [
+            "depth"
+          ],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "youtube_keyword_search",
+          "label": "Keyword Search",
+          "path": "/youtube/search",
+          "method": "GET",
+          "description": "Fetch videos from a given keyword. Depth 1 returns approx. 20 videos, Depth N returns approx. 20 * N videos. The videos are fetched directly from https://www.youtube.com/results?search_query=magic. By default, this endpoint will search using the `All` category on Youtube. If you want to search in a specific category, use the `Featured Categories Search` e...",
+          "parameters": [
+            {
+              "name": "keyword",
+              "label": "Keyword",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "The keyword to base the search on.",
+              "placeholder": "Masukkan keyword",
+              "min_length": 1
+            },
+            {
+              "name": "depth",
+              "label": "Depth",
+              "type": "integer",
+              "value_type": "integer",
+              "required": true,
+              "allow_empty": false,
+              "description": "Abstraction of the API pagination. Depth 1 returns X results, depth N returns N * X results. Note that the exact number of results per depth (X) may differ per endpoint. Please refer to the specific endpoint description for more information.",
+              "placeholder": "Masukkan depth",
+              "minimum": 1
+            },
+            {
+              "name": "start_cursor",
+              "label": "Start Cursor",
+              "type": "cursor",
+              "value_type": "string",
+              "required": false,
+              "allow_empty": true,
+              "description": "If no `start cursor` is specified, it fetches the results from the 'All' category on the Youtube search. Other cursors can be fetched by first sending a request to our `Featured Categories Search` endpoint.",
+              "placeholder": "Masukkan start cursor",
+              "default": ""
+            },
+            {
+              "name": "period",
+              "label": "Period",
+              "type": "select",
+              "value_type": "string",
+              "required": false,
+              "allow_empty": false,
+              "description": "Time filter to return only videos from a certain time period (overall, this hour, today, this week, this month, This year).",
+              "placeholder": "Masukkan period",
+              "default": "overall",
+              "options": [
+                {
+                  "value": "overall",
+                  "label": "Overall"
+                },
+                {
+                  "value": "hour",
+                  "label": "Hour"
+                },
+                {
+                  "value": "today",
+                  "label": "Today"
+                },
+                {
+                  "value": "week",
+                  "label": "Week"
+                },
+                {
+                  "value": "month",
+                  "label": "Month"
+                },
+                {
+                  "value": "year",
+                  "label": "Year"
+                }
+              ]
+            },
+            {
+              "name": "sorting",
+              "label": "Sorting",
+              "type": "select",
+              "value_type": "string",
+              "required": false,
+              "allow_empty": false,
+              "description": "Sort results based on a parameter (relevance, upload time, view count, rating).",
+              "placeholder": "Masukkan sorting",
+              "default": "relevance",
+              "options": [
+                {
+                  "value": "relevance",
+                  "label": "Relevance"
+                },
+                {
+                  "value": "time",
+                  "label": "Time"
+                },
+                {
+                  "value": "views",
+                  "label": "Views"
+                },
+                {
+                  "value": "rating",
+                  "label": "Rating"
+                }
+              ]
+            },
+            {
+              "name": "get_additional_info",
+              "label": "Get Additional Info",
+              "type": "boolean",
+              "value_type": "boolean",
+              "required": false,
+              "allow_empty": false,
+              "description": "Fetch additional info for the video (number of subscribers, likes and comments) and channel owner. 1 extra unit is charged per video.",
+              "placeholder": "Masukkan get additional info",
+              "default": false
+            }
+          ],
+          "pagination": [
+            "depth",
+            "start_cursor"
+          ],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "youtube_featured_categories_search",
+          "label": "Featured Categories Search",
+          "path": "/youtube/search/featured-categories",
+          "method": "GET",
+          "description": "Fetch the related categories showing on Youtube search keyword. The cursor returned for each category can be used as `start_cursor` in the Youtube Search Keyword API for fetching videos of the chosen category. The categories are fetched directly from https://www.youtube.com/results?search_query=magic. API Pricing (per request) : 1 unit Try the API",
+          "parameters": [
+            {
+              "name": "name",
+              "label": "Name",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "The keyword to base the search of the suggested categories on.",
+              "placeholder": "Masukkan name",
+              "min_length": 1
+            }
+          ],
+          "pagination": [],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "youtube_video_comments",
+          "label": "Video / Short Comments",
+          "path": "/youtube/video/comments",
+          "method": "GET",
+          "description": "Get comments for a specific Youtube video or short. See the `cursor` query parameter below for information on how to manage pagination (fetch more comments). API Pricing (per request) : 2 units Try the API",
+          "parameters": [
+            {
+              "name": "id",
+              "label": "Id",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "video or short ID.",
+              "placeholder": "Masukkan id",
+              "min_length": 1
+            },
+            {
+              "name": "cursor",
+              "label": "Cursor",
+              "type": "cursor",
+              "value_type": "string",
+              "required": false,
+              "allow_empty": true,
+              "description": "Parameter to manually handle pagination. Each response contains a `nextCursor` which can be used to retrieve the next page of results by sending it as the next `cursor`. If the `nextCursor` is not present in the response, it means that there are no more results to retrieve.",
+              "placeholder": "Masukkan cursor",
+              "default": ""
+            }
+          ],
+          "pagination": [
+            "cursor"
+          ],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        }
+      ]
+    },
+    {
+      "id": "threads",
+      "name": "Threads",
+      "endpoints": [
+        {
+          "id": "threads_search_keyword",
+          "label": "Keyword Search",
+          "path": "/threads/keyword/search",
+          "method": "GET",
+          "description": "Fetch posts related to a certain keyword. The posts can be top or most recent. NB: Threads returns only 10-20 posts at maximum per keyword. Run the API multiple times per day to get more posts. API Pricing (per request) : #returned_posts units Try the API",
+          "parameters": [
+            {
+              "name": "name",
+              "label": "Name",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "Keyword to search.",
+              "placeholder": "Masukkan name"
+            },
+            {
+              "name": "sorting",
+              "label": "Sorting",
+              "type": "select",
+              "value_type": "string",
+              "required": false,
+              "allow_empty": false,
+              "description": "The posts returned are TOP if sorting=0, or most RECENT if sorting=1",
+              "placeholder": "Masukkan sorting",
+              "default": 0,
+              "options": [
+                {
+                  "value": "0",
+                  "label": "0"
+                },
+                {
+                  "value": "1",
+                  "label": "1"
+                }
+              ]
+            }
+          ],
+          "pagination": [],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "threads_post_replies",
+          "label": "Post Info & Replies",
+          "path": "/threads/post/replies",
+          "method": "GET",
+          "description": "Fetch the information and its replies to a post using its ID. NB: Threads returns at maximum the 20-30 most popular replies to a posts. API Pricing (per request) : #returned_replies units Try the API",
+          "parameters": [
+            {
+              "name": "id",
+              "label": "Id",
+              "type": "integer",
+              "value_type": "integer",
+              "required": true,
+              "allow_empty": false,
+              "description": "Post ID.",
+              "placeholder": "Masukkan id"
+            },
+            {
+              "name": "shortcode",
+              "label": "Shortcode",
+              "type": "string",
+              "value_type": "string",
+              "required": false,
+              "allow_empty": false,
+              "description": "You can use the Post Shortcode instead of the ID. In this case, input any integer in the ID parameter.",
+              "placeholder": "Masukkan shortcode"
+            }
+          ],
+          "pagination": [],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "threads_user_info",
+          "label": "User Info",
+          "path": "/threads/user/info",
+          "method": "GET",
+          "description": "Get user detailed information using the user ID. API Pricing (per request) : 4 units Try the API",
+          "parameters": [
+            {
+              "name": "id",
+              "label": "Id",
+              "type": "integer",
+              "value_type": "integer",
+              "required": true,
+              "allow_empty": false,
+              "description": "User ID.",
+              "placeholder": "Masukkan id"
+            }
+          ],
+          "pagination": [],
+          "response_type": "object",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "threads_user_posts",
+          "label": "User Posts",
+          "path": "/threads/user/posts",
+          "method": "GET",
+          "description": "Fetch most recent posts for a user using the user ID. NB: Threads returns at maximum the 20-30 most recent posts for a user. API Pricing (per request) : #returned_posts units Try the API",
+          "parameters": [
+            {
+              "name": "id",
+              "label": "Id",
+              "type": "integer",
+              "value_type": "integer",
+              "required": true,
+              "allow_empty": false,
+              "description": "User ID.",
+              "placeholder": "Masukkan id"
+            },
+            {
+              "name": "chunk_size",
+              "label": "Chunk Size",
+              "type": "integer",
+              "value_type": "integer",
+              "required": false,
+              "allow_empty": false,
+              "description": "How many posts to fetch with the request.",
+              "placeholder": "Masukkan chunk size",
+              "default": 10,
+              "minimum": 1
+            }
+          ],
+          "pagination": [],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        },
+        {
+          "id": "threads_user_search",
+          "label": "User Search",
+          "path": "/threads/user/search",
+          "method": "GET",
+          "description": "Find users matching a given input string. API Pricing (per request) : 4 units Try the API",
+          "parameters": [
+            {
+              "name": "name",
+              "label": "Name",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "Name of the user to search.",
+              "placeholder": "Masukkan name"
+            }
+          ],
+          "pagination": [],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        }
+      ]
+    },
+    {
+      "id": "news",
+      "name": "Berita Online",
+      "provider": "serpapi",
+      "endpoints": [
+        {
+          "id": "serpapi_google_news_search",
+          "label": "Google News Search",
+          "path": "https://serpapi.com/search.json",
+          "method": "GET",
+          "description": "Cari berita online melalui SerpAPI Google News. API key hanya digunakan oleh backend dan tidak dikirim ke browser.",
+          "parameters": [
+            {
+              "name": "query",
+              "label": "Kata kunci",
+              "type": "string",
+              "value_type": "string",
+              "required": true,
+              "allow_empty": false,
+              "description": "Kata kunci pencarian Google News.",
+              "placeholder": "Contoh: ekonomi Indonesia",
+              "min_length": 2,
+              "max_length": 200
+            },
+            {
+              "name": "sort",
+              "label": "Urutan",
+              "type": "select",
+              "value_type": "string",
+              "required": false,
+              "allow_empty": false,
+              "description": "Urutkan hasil secara lokal berdasarkan relevansi provider atau tanggal terbaru.",
+              "placeholder": "Pilih urutan",
+              "default": "relevance",
+              "options": [
+                {
+                  "value": "relevance",
+                  "label": "Relevance"
+                },
+                {
+                  "value": "date",
+                  "label": "Newest first"
+                }
+              ]
+            },
+            {
+              "name": "limit",
+              "label": "Jumlah artikel",
+              "type": "integer",
+              "value_type": "integer",
+              "required": false,
+              "allow_empty": false,
+              "description": "Maksimum artikel yang diambil dari response SerpAPI.",
+              "placeholder": "20",
+              "default": 20,
+              "minimum": 1,
+              "maximum": 100
+            },
+            {
+              "name": "language",
+              "label": "Bahasa",
+              "type": "string",
+              "value_type": "string",
+              "required": false,
+              "allow_empty": false,
+              "description": "Kode bahasa Google News. Default server: id.",
+              "placeholder": "id",
+              "default": "id",
+              "min_length": 2,
+              "max_length": 10
+            },
+            {
+              "name": "country",
+              "label": "Negara",
+              "type": "string",
+              "value_type": "string",
+              "required": false,
+              "allow_empty": false,
+              "description": "Kode negara Google News. Default server: id.",
+              "placeholder": "id",
+              "default": "id",
+              "min_length": 2,
+              "max_length": 10
+            },
+            {
+              "name": "no_cache",
+              "label": "Paksa hasil baru",
+              "type": "boolean",
+              "value_type": "boolean",
+              "required": false,
+              "allow_empty": false,
+              "description": "Jika true, SerpAPI tidak memakai cache dan request dapat memakai kuota.",
+              "placeholder": "false"
+            }
+          ],
+          "pagination": [],
+          "response_type": "list",
+          "status": "ACTIVE",
+          "executable": true
+        }
+      ]
+    }
+  ]
+}
